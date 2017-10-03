@@ -856,7 +856,7 @@
     }
 }
 
-- (void)centerSelectedSegmentIndex: (BOOL) animated
+- (void) centerSelectedSegmentIndex: (BOOL) animated
 {
     // Animate to new position
     [CATransaction begin];
