@@ -836,16 +836,8 @@
             self.selectionIndicatorArrowLayer.actions = nil;
             self.selectionIndicatorStripLayer.actions = nil;
             self.selectionIndicatorBoxLayer.actions = nil;
-            
-            // Animate to new position
-            [CATransaction begin];
-            [CATransaction setAnimationDuration:0.15f];
-            [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
-            [self setArrowFrame];
-            self.selectionIndicatorBoxLayer.frame = [self frameForSelectionIndicator];
-            self.selectionIndicatorStripLayer.frame = [self frameForSelectionIndicator];
-            self.selectionIndicatorBoxLayer.frame = [self frameForFillerSelectionIndicator];
-            [CATransaction commit];
+
+            [self centerSelectedSegmentIndex: YES];
         } else {
             // Disable CALayer animations
             NSMutableDictionary *newActions = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNull null], @"position", [NSNull null], @"bounds", nil];
@@ -862,6 +854,19 @@
                 [self notifyForSegmentChangeToIndex:index];
         }
     }
+}
+
+- (void)centerSelectedSegmentIndex: (BOOL) animated
+{
+    // Animate to new position
+    [CATransaction begin];
+    [CATransaction setAnimationDuration: animated ? 0.15f : 0.0f];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
+    [self setArrowFrame];
+    self.selectionIndicatorBoxLayer.frame = [self frameForSelectionIndicator];
+    self.selectionIndicatorStripLayer.frame = [self frameForSelectionIndicator];
+    self.selectionIndicatorBoxLayer.frame = [self frameForFillerSelectionIndicator];
+    [CATransaction commit];
 }
 
 - (void)notifyForSegmentChangeToIndex:(NSInteger)index {
